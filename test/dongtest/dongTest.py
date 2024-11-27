@@ -4,10 +4,10 @@ import json
 import pandas as pd
 import os
 
-current_directory = os.getcwd()
-print("현재 작업 디렉터리:", current_directory)
+# current_directory = os.getcwd()
+# print("현재 작업 디렉터리:", current_directory)
 
-with open(r'../../testjsondata/dongData.json', 'r', encoding='utf-8') as f:
+with open(r'../../testjsondata/dongData2.json', 'r', encoding='utf-8') as f:
 
     json_data = json.load(f)
 
