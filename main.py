@@ -2,11 +2,13 @@
 # Licensed under the MIT License
 import base64
 import io
+from pyhwpx import Hwp
 from typing import Optional, Dict
 import pandas as pd
 from fastapi.responses import StreamingResponse
 from fastapi import FastAPI
 from dephwpcreate.DepHwpCreate import EventTableProcessor
+from dong_formatting.dong_font_set import DongHwpFormatter
 from donghwpcreate.DongHwpCreate import DongTableProcessor
 
 '''
@@ -23,15 +25,9 @@ from donghwpcreate.DongHwpCreate import DongTableProcessor
 app = FastAPI()
 
 
-
-
-
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
-
-
-
 
 
 @app.post("/deptcreatehwp")
@@ -70,9 +66,6 @@ async def return_hwp(data: Dict):
     return StreamingResponse(memory_file, headers=headers, media_type="application/x-hwp")
 
 
-
-
-
 @app.post("/dongcreatehwp")
 async def return_hwp(data: Dict):
     # 'data'는 JSON 전체가 dict 형태로 들어옵니다
@@ -84,7 +77,12 @@ async def return_hwp(data: Dict):
 
     processor = DongTableProcessor("template/dongrealtemplate2.hwp", df)
     try:
+
         processor.process()
+        hwp = processor.get_hwp() # hwp object return
+        formatter = DongHwpFormatter(hwp)# formatting object
+        formatter.process() # formatting method
+
         # GetTextFile을 사용하여 HWP 파일을 BASE64로 인코딩된 문자열로 가져옴
         base64_content = processor.hwp.GetTextFile("HWP", "")
 
