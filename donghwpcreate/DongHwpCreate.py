@@ -17,6 +17,10 @@ class DongTableProcessor:
         self.first_date_components = None
         self.last_date_components = None
 
+    def get_hwp(self):
+        """Hwp 객체를 리턴하는 메서드"""
+        return self.hwp
+
     def table_clear(self):
         self.hwp.set_pos(11, 0, 0)
         self.hwp.TableCellBlock()
